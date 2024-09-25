@@ -30,6 +30,8 @@ let xVelocity = 0;
 let yVelocity = 0;
 
 let score = 0;
+let hiScore = 0;
+let newHiScore = false;
 
 let gulpSound = new Audio("gulp.mp3");
 
@@ -53,6 +55,7 @@ function init() {
   xVelocity = 0;
   yVelocity = 0;
   score = 0;
+  newHiScore = false;
 
   window.clearTimeout(moveTimeout);
 }
@@ -130,6 +133,15 @@ function isGameOver() {
       canvas.width / 5,
       canvas.height / 1.5
     );
+    if (newHiScore) {
+      ctx.font = "28px Verdana";
+      ctx.fillStyle = "#CE3030";
+      ctx.fillText(
+        `New Hi Score : ${hiScore}`,
+        canvas.width / 5,
+        canvas.height / 3
+      );
+    }
   }
 
   return gameOver;
@@ -138,7 +150,8 @@ function isGameOver() {
 function drawScore() {
   ctx.fillStyle = "white";
   ctx.font = "10px Verdana";
-  ctx.fillText("Score " + score, canvas.width - 50, 10);
+  ctx.fillText("HiScore : " + hiScore, 10, 10);
+  ctx.fillText("Score : " + score, canvas.width - 60, 10);
 }
 
 function clearScreen() {
@@ -242,6 +255,10 @@ function checkAppleCollision() {
     appleY = Math.floor(Math.random() * tileCount);
     tailLength++;
     score++;
+    if (score > hiScore) {
+      hiScore = score;
+      newHiScore = true;
+    }
     gulpSound.play();
   }
 }
