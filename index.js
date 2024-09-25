@@ -9,7 +9,7 @@ class SnakePart {
     this.y = y;
   }
 }
-// speed of the game
+
 let speed = 7;
 // size and count of a tile
 let tileCount = 20;
@@ -33,6 +33,32 @@ let score = 0;
 
 let gulpSound = new Audio("gulp.mp3");
 
+function init() {
+  // speed of the game
+  speed = 7;
+  // size and count of a tile
+  tileCount = 20;
+  tileSize = canvas.width / tileCount - 2;
+  // head of the snake
+  headX = 10;
+  headY = 10;
+  snakeParts = [];
+  tailLength = 2;
+  // apple size
+  appleX = 5;
+  appleY = 5;
+  // movement
+  inputsXVelocity = 0;
+  inputsYVelocity = 0;
+  xVelocity = 0;
+  yVelocity = 0;
+  score = 0;
+
+  window.clearTimeout(moveTimeout);
+}
+
+let moveTimeout;
+
 //game loop
 function drawGame() {
   xVelocity = inputsXVelocity;
@@ -52,14 +78,19 @@ function drawGame() {
 
   drawScore();
 
+<<<<<<< Updated upstream
   if (score > 5) {
     speed = 200;
   }
   if (score > 10) {
     speed = 11;
+=======
+  if (score > speed) {
+    speed = score + 1;
+>>>>>>> Stashed changes
   }
 
-  setTimeout(drawGame, 1000 / speed);
+  this.moveTimeout = setTimeout(drawGame, 1000 / speed);
 }
 
 function isGameOver() {
@@ -92,21 +123,21 @@ function isGameOver() {
     ctx.fillStyle = "white";
     ctx.font = "50px Verdana";
 
-    if (gameOver) {
-      ctx.fillStyle = "white";
-      ctx.font = "50px Verdana";
-
-      var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
-      gradient.addColorStop("0", " magenta");
-      gradient.addColorStop("0.5", "blue");
-      gradient.addColorStop("1.0", "red");
-      // Fill with gradient
-      ctx.fillStyle = gradient;
-
-      ctx.fillText("Game Over!", canvas.width / 6.5, canvas.height / 2);
-    }
+    var gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+    gradient.addColorStop("0", " magenta");
+    gradient.addColorStop("0.5", "blue");
+    gradient.addColorStop("1.0", "red");
+    // Fill with gradient
+    ctx.fillStyle = gradient;
 
     ctx.fillText("Game Over!", canvas.width / 6.5, canvas.height / 2);
+    ctx.font = "20px Verdana";
+    ctx.fillStyle = "white";
+    ctx.fillText(
+      "Press Space Bar to restart",
+      canvas.width / 5,
+      canvas.height / 1.5
+    );
   }
 
   return gameOver;
@@ -192,6 +223,12 @@ function keyDown(event) {
     if (inputsXVelocity == -1) return;
     inputsYVelocity = 0;
     inputsXVelocity = 1;
+  }
+
+  if (event.keyCode === 32 && isGameOver()) {
+    console.log("Restarting Game");
+    init();
+    drawGame();
   }
 }
 
