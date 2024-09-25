@@ -223,7 +223,7 @@ function changeSnakePosition() {
 
 function drawApple() {
   // apple itself
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "#CF3C2E";
   ctx.beginPath();
   ctx.arc(
     appleX * tileCount + tileSize / 2, // x-coord for circle center
@@ -235,7 +235,7 @@ function drawApple() {
   ctx.fill();
 
   // cheeky leaf
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "#008000";
   ctx.beginPath();
   ctx.ellipse(
     appleX * tileCount + tileSize / 2, //
