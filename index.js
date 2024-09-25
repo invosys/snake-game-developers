@@ -34,6 +34,7 @@ let hiScore = 0;
 let newHiScore = false;
 
 let gulpSound = new Audio("gulp.mp3");
+let dieSound = new Audio("ecto1.mp3");
 
 function init() {
   // speed of the game
@@ -142,6 +143,8 @@ function isGameOver() {
         canvas.height / 3
       );
     }
+    dieSound.play();
+    window.setTimeout(() => dieSound.pause(), 1500);
   }
 
   return gameOver;
@@ -166,7 +169,7 @@ function drawSnake() {
     ctx.fillRect(part.x * tileCount, part.y * tileCount, tileSize, tileSize);
   }
 
-  snakeParts.push(new SnakePart(headX, headY)); 
+  snakeParts.push(new SnakePart(headX, headY));
   while (snakeParts.length > tailLength) {
     snakeParts.shift();
   }
@@ -174,36 +177,40 @@ function drawSnake() {
   ctx.fillStyle = "orange";
   ctx.fillRect(headX * tileCount, headY * tileCount, tileSize, tileSize);
 
-    // Add the eyes
-    ctx.fillStyle = "black";
-    let eyeRadius = tileSize * 0.1;  // eye size
-    let eyeOffsetX = tileSize * 0.2;
-    let eyeOffsetY = tileSize * 0.3; 
-  
-    // left eye
-    ctx.beginPath();
-    ctx.arc(
-      (headX * tileCount) + eyeOffsetX,
-      (headY * tileCount) + eyeOffsetY,
-      eyeRadius, 0, Math.PI * 2
-    );
-    ctx.fill();
-  
-    // right eye
-    ctx.beginPath();
-    ctx.arc(
-      (headX * tileCount) + tileSize - eyeOffsetX,
-      (headY * tileCount) + eyeOffsetY,
-      eyeRadius, 0, Math.PI * 2
-    );
-    ctx.fill();
+  // Add the eyes
+  ctx.fillStyle = "black";
+  let eyeRadius = tileSize * 0.1; // eye size
+  let eyeOffsetX = tileSize * 0.2;
+  let eyeOffsetY = tileSize * 0.3;
 
-    // Add a cheeky tongue
+  // left eye
+  ctx.beginPath();
+  ctx.arc(
+    headX * tileCount + eyeOffsetX,
+    headY * tileCount + eyeOffsetY,
+    eyeRadius,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+
+  // right eye
+  ctx.beginPath();
+  ctx.arc(
+    headX * tileCount + tileSize - eyeOffsetX,
+    headY * tileCount + eyeOffsetY,
+    eyeRadius,
+    0,
+    Math.PI * 2
+  );
+  ctx.fill();
+
+  // Add a cheeky tongue
   ctx.strokeStyle = "#D80073";
-  ctx.lineWidth = 2; 
+  ctx.lineWidth = 2;
   // Where the tongue begins
-  let tongueStartX = (headX * tileCount) + (tileSize / 2);
-  let tongueStartY = (headY * tileCount) + tileSize;
+  let tongueStartX = headX * tileCount + tileSize / 2;
+  let tongueStartY = headY * tileCount + tileSize;
   ctx.beginPath();
   ctx.moveTo(tongueStartX, tongueStartY); // Start in middle of head at bottom
   // Fork the tongue
@@ -228,7 +235,7 @@ function drawApple() {
   ctx.arc(
     appleX * tileCount + tileSize / 2, // x-coord for circle center
     appleY * tileCount + tileSize / 2, // y-coord for the circle center
-    tileSize / 2, // radius 
+    tileSize / 2, // radius
     0, // start angle
     Math.PI * 2 // end angle
   );
@@ -239,7 +246,7 @@ function drawApple() {
   ctx.beginPath();
   ctx.ellipse(
     appleX * tileCount + tileSize / 2, //
-    appleY * tileCount + tileSize / 2 - tileSize / 2, 
+    appleY * tileCount + tileSize / 2 - tileSize / 2,
     tileSize / 6, // leaf width
     tileSize / 10, // leaf height
     Math.PI / 4, // tilt the precious leaf.
@@ -301,6 +308,7 @@ function keyDown(event) {
   if (event.keyCode === 32 && isGameOver()) {
     console.log("Restarting Game");
     init();
+    dieSound.pause();
     drawGame();
   }
 }
