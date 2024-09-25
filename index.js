@@ -78,16 +78,8 @@ function drawGame() {
 
   drawScore();
 
-<<<<<<< Updated upstream
-  if (score > 5) {
-    speed = 200;
-  }
-  if (score > 10) {
-    speed = 11;
-=======
   if (score > speed) {
     speed = score + 1;
->>>>>>> Stashed changes
   }
 
   this.moveTimeout = setTimeout(drawGame, 1000 / speed);
