@@ -1,5 +1,5 @@
 let canvas = document.getElementById("game");
-let ctx = canvas.getContext("2d");  
+let ctx = canvas.getContext("2d");
 // draw on the screen to get the context, ask canvas  to get the 2d context
 
 // snake axis
@@ -11,7 +11,7 @@ class SnakePart {
 }
 // speed of the game
 let speed = 7;
-// size and count of a tile 
+// size and count of a tile
 let tileCount = 20;
 let tileSize = canvas.width / tileCount - 2;
 // head of the snake
@@ -53,7 +53,7 @@ function drawGame() {
   drawScore();
 
   if (score > 5) {
-    speed = 9;
+    speed = 200;
   }
   if (score > 10) {
     speed = 11;
@@ -110,7 +110,6 @@ function isGameOver() {
   }
 
   return gameOver;
-
 }
 
 function drawScore() {
